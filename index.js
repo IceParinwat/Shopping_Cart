@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         productList.innerHTML = ""; // รีเซ็ตการสร้างProductใหม่
         productArr.forEach((product) => {
             const li = document.createElement("li");
-           
+
 
             li.textContent = `${product.name} - ${product.price}฿`;
 
@@ -106,7 +106,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const price = parseFloat(inputPrice.value);
         const imageUrl = inputUrl.value;
 
-        if (name && !isNaN(price) && imageUrl) {
+        const urlPattern = /^(https?:\/\/[^\s]+)$/;
+        const base64Pattern = /^data:image\/[a-zA-Z]+;base64,/;
+
+        if (name && !isNaN(price) && urlPattern.test(imageUrl)|| base64Pattern.test(imageUrl)) {
             const newProduct = {
                 id: productId,
                 name,
@@ -120,9 +123,10 @@ document.addEventListener("DOMContentLoaded", () => {
             inputPrice.value = '';
             inputUrl.value = '';
         } else {
-            alert("กรอกข้อมูลให้ครบ");
+            alert("กรุณากรอกข้อมูลให้ครบและ URL ต้องถูกต้อง");
         }
     });
+
 
     addToCart.addEventListener('click', addToCartItems);
     buyNow.addEventListener('click', buyNowItems);
